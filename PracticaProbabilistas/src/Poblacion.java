@@ -27,6 +27,17 @@ public class Poblacion {
 		return situaciones;
 	}
 	
+	public char[][] copiarSituacion(char[][]situacion){
+		char[][]situacion_actual=new char[situacion.length][situacion[0].length];
+		
+		for(int i=0;i<situacion_actual.length;i++) {
+			for(int j=0;j<situacion_actual[0].length;j++) {
+				situacion_actual[i][j]=situacion[i][j];
+			}
+		}
+		return situacion_actual;
+	}
+	
 	/*public void setMatriz(char[][] matriz) {
 		this.matriz = new char[matriz.length][matriz[0].length];
 
@@ -49,7 +60,7 @@ public class Poblacion {
 	}
 	
 	public /*char[][]*/void generarSiguienteIteracion(){
-		char[][]situacion_actual=situaciones.get(situaciones.size()-1);
+		char[][]situacion_actual=copiarSituacion(situaciones.get(situaciones.size()-1));
 		
 		for (int i = 1; i < situacion_actual.length-1; i++) {
 			for (int j = 1; j < situacion_actual[0].length-1; j++) {
@@ -58,35 +69,35 @@ public class Poblacion {
 						int valor_contagio=(int) Math.floor(Math.random()*101);
 						switch(v) {
 							case 0:
-								if(valor_contagio<30&&situacion_actual[i-1][j-1]!='0'&&(situacion_actual[i-1][j-1]!=Persona.INMUNE.getValor()||situacion_actual[i-1][j-1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<30&&situacion_actual[i-1][j-1]!='0'&&(situacion_actual[i-1][j-1]!=Persona.INMUNE.getValor()&&situacion_actual[i-1][j-1]!=Persona.MUERTO.getValor()&&situacion_actual[i-1][j-1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i-1][j-1]=Persona.ENFERMO.getValor();
 								}break;
 							case 1:
-								if(valor_contagio<80&&situacion_actual[i-1][j]!='0'&&(situacion_actual[i-1][j]!=Persona.INMUNE.getValor()||situacion_actual[i-1][j]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<80&&situacion_actual[i-1][j]!='0'&&(situacion_actual[i-1][j]!=Persona.INMUNE.getValor()&&situacion_actual[i-1][j]!=Persona.MUERTO.getValor()&&situacion_actual[i-1][j]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i-1][j]=Persona.ENFERMO.getValor();
 								}break;
 							case 2:
-								if(valor_contagio<30&&situacion_actual[i-1][j+1]!='0'&&(situacion_actual[i-1][j+1]!=Persona.INMUNE.getValor()||situacion_actual[i-1][j+1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<30&&situacion_actual[i-1][j+1]!='0'&&(situacion_actual[i-1][j+1]!=Persona.INMUNE.getValor()&&situacion_actual[i-1][j+1]!=Persona.MUERTO.getValor()&&situacion_actual[i-1][j+1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i-1][j+1]=Persona.ENFERMO.getValor();
 								}break;
 							case 3:
-								if(valor_contagio<80&&situacion_actual[i][j-1]!='0'&&(situacion_actual[i][j-1]!=Persona.INMUNE.getValor()||situacion_actual[i][j-1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<80&&situacion_actual[i][j-1]!='0'&&(situacion_actual[i][j-1]!=Persona.INMUNE.getValor()&&situacion_actual[i][j-1]!=Persona.MUERTO.getValor()&&situacion_actual[i][j-1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i][j-1]=Persona.ENFERMO.getValor();
 								}break;
 							case 4:
-								if(valor_contagio<80&&situacion_actual[i][j+1]!='0'&&(situacion_actual[i][j+1]!=Persona.INMUNE.getValor()||situacion_actual[i][j+1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<80&&situacion_actual[i][j+1]!='0'&&(situacion_actual[i][j+1]!=Persona.INMUNE.getValor()&&situacion_actual[i][j+1]!=Persona.MUERTO.getValor()&&situacion_actual[i][j+1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i][j+1]=Persona.ENFERMO.getValor();
 								}break;
 							case 5:
-								if(valor_contagio<30&&situacion_actual[i+1][j-1]!='0'&&(situacion_actual[i+1][j-1]!=Persona.INMUNE.getValor()||situacion_actual[i+1][j-1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<30&&situacion_actual[i+1][j-1]!='0'&&(situacion_actual[i+1][j-1]!=Persona.INMUNE.getValor()&&situacion_actual[i+1][j-1]!=Persona.MUERTO.getValor()&&situacion_actual[i+1][j-1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i+1][j-1]=Persona.ENFERMO.getValor();
 								}break;
 							case 6:
-								if(valor_contagio<80&&situacion_actual[i+1][j]!='0'&&(situacion_actual[i+1][j]!=Persona.INMUNE.getValor()||situacion_actual[i+1][j]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<80&&situacion_actual[i+1][j]!='0'&&(situacion_actual[i+1][j]!=Persona.INMUNE.getValor()&&situacion_actual[i+1][j]!=Persona.MUERTO.getValor()&&situacion_actual[i+1][j-1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i+1][j]=Persona.ENFERMO.getValor();
 								}break;
 							case 7:
-								if(valor_contagio<30&&situacion_actual[i+1][j+1]!='0'&&(situacion_actual[i+1][j+1]!=Persona.INMUNE.getValor()||situacion_actual[i+1][j+1]!=Persona.MUERTO.getValor())) {
+								if(valor_contagio<30&&situacion_actual[i+1][j+1]!='0'&&(situacion_actual[i+1][j+1]!=Persona.INMUNE.getValor()&&situacion_actual[i+1][j+1]!=Persona.MUERTO.getValor()&&situacion_actual[i+1][j-1]!=Persona.ENFERMO.getValor())) {
 									situacion_actual[i+1][j+1]=Persona.ENFERMO.getValor();
 								}break;
 						}
