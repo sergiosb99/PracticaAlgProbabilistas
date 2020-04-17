@@ -2,37 +2,35 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Principal {
-
 	public static void main(String[] args){
 		int alto = leerEnteroPositivo("Introduzca el largo de la población: "); 
 		int ancho = leerEnteroPositivo("Introduzca el ancho de la población: ");
 		Poblacion poblacion = new Poblacion(alto,ancho); // Se inicia con todos sanos (S).
-		System.out.println("¿En que posición quieres poner el primer enfermo de la población?");
-		int altoEnfermo = leerEnteroPositivoConLimite(alto,"Alto (0 - " + (alto-1) +"):");
-		int anchoEnfermo = leerEnteroPositivoConLimite(ancho,"Ancho (0 - " + (ancho-1) +"):");
-		Persona [][] pueblo = primerEnfermo(poblacion,altoEnfermo,anchoEnfermo);
-		poblacion.setMatriz(pueblo); // La población ahora tiene un enfermo (E).
-						
-		representarPoblacion(poblacion);
-		
-		contagios(poblacion);
-		representarPoblacion(poblacion);
-
-	}
-	
-	private static Persona[][] primerEnfermo (Poblacion poblacion, int alto, int ancho){
-		Persona [][] pueblo = poblacion.getMatriz();
-		Persona primerEnfermo = new Persona();
-		primerEnfermo.setEstado(2);
-
-		for (int i = 0; i < pueblo.length; i++ ) {
-			for (int j = 0; j < pueblo[0].length; j++) {
-				if (i == alto && j == ancho) {
-					pueblo[i][j] = primerEnfermo; 
-				}
-			}
+		System.out.println("Tienes dos opciones:\n1)Generar el primer enfermo aleatoriamente.\n2)Generar el primer enfermo introduciendo la posición exacta.");
+		int opcion = leerEnteroPositivoConLimite(1,3,"Introduzca una opción:");
+		int altoEnfermo=-1,anchoEnfermo=-1;
+		switch(opcion) {
+		case 1:
+			altoEnfermo = (int) Math.floor(Math.random()*alto+1);
+			anchoEnfermo = (int) Math.floor(Math.random()*ancho+1);
+			break;
+		case 2:
+			System.out.println("¿En que posición quieres poner el primer enfermo de la población?");
+			altoEnfermo = leerEnteroPositivoConLimite(0,alto,"Alto (0 - " + (alto-1) +"):");
+			anchoEnfermo = leerEnteroPositivoConLimite(0,ancho,"Ancho (0 - " + (ancho-1) +"):");
+			break;
 		}
-		return pueblo;
+		
+		/*Persona [][] pueblo = primerEnfermo(poblacion,altoEnfermo,anchoEnfermo);
+		poblacion.setMatriz(pueblo); // La población ahora tiene un enfermo (E).*/
+		
+		poblacion.primerEnfermo(altoEnfermo, anchoEnfermo);
+		
+		System.out.println(poblacion.toString());
+		
+		/*contagios(poblacion);
+		representarPoblacion(poblacion);*/
+
 	}
 	
 	private static Persona[][] contagios (Poblacion poblacion) {
@@ -73,7 +71,7 @@ public class Principal {
 	
 	// Métodos auxiliares
 
-	private static void representarPoblacion(Poblacion poblacion) {
+	private static void representarPoblacion(Poblacion poblacion) { //Borrar
 		System.out.println(" --- POBLACIÓN ---");
 		Persona[][] pueblo = poblacion.getMatriz();
 		for (int i = 0; i < pueblo.length; i++) {
@@ -111,7 +109,7 @@ public class Principal {
 		return numero;
 	}
 	
-	public static int leerEnteroPositivoConLimite(int valorMax, String mensaje) {
+	public static int leerEnteroPositivoConLimite(int valorMin,int valorMax, String mensaje) {
 		Scanner TECLADO = new Scanner(System.in);
 		int opcion = 0;
 
@@ -119,14 +117,14 @@ public class Principal {
 			System.out.println(mensaje);
 			try {
 				opcion = TECLADO.nextInt();
-				if (opcion < 0 || opcion >= valorMax) {
-					throw new Exception("El numero introducido debe estar entre 1 y "+valorMax+", pruebe otra vez:");
+				if (opcion < valorMin || opcion >= valorMax) {
+					throw new Exception("El numero introducido debe estar entre"+ valorMin+" y "+valorMax+", pruebe otra vez:");
 				}
 			}catch(Exception e) {
-				System.out.println("Introduzca un valor valido: ");
+				System.out.print("Introduzca un valor valido: ");
 				TECLADO.nextLine();
 			}
-		} while (opcion < 0 || opcion >= valorMax);
+		} while (opcion < valorMin || opcion >= valorMax);
 
 		return opcion;
 	}

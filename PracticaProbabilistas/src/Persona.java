@@ -1,33 +1,15 @@
 
-public class Persona {
-
-	int estado;
-	/*Estados:
-	 * 1 ---> Sano
-	 * 2 ---> Enfermo
-	 * 3 ---> Muerto
-	 * 4 ---> Inmune*/
+public enum Persona {
+	ENFERMO('E'),INMUNE('I'),MUERTO('M'),NOAFECTADO('N');
+	private char valor;
 	
-	public Persona(){ // Por defecto esta sana.
-		this.estado = 1;
+	Persona(char valor){
+		this.valor=valor;
 	}
-	
-	public int getEstado() {
-		return estado;
+	char getValor() {
+		return this.valor;
 	}
-	
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-	
-	public String toString() {
-		String estado = "";
-		switch(getEstado()) {
-			case 1: estado = "S"; break;
-			case 2: estado = "E"; break;
-			case 3: estado = "M"; break;
-			case 4: estado = "I"; break;
-		}
-		return estado;
+	void setValor(char valor) {  //esto hay que borrarlo que es una mierda
+		this.valor=valor;
 	}
 }
