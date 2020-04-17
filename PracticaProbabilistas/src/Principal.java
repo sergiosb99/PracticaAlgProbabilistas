@@ -28,12 +28,21 @@ public class Principal {
 		
 		System.out.println(poblacion.toString());
 		
+		simularPandemia(poblacion);
+		
 		/*contagios(poblacion);
 		representarPoblacion(poblacion);*/
 
 	}
 	
-	private static Persona[][] contagios (Poblacion poblacion) {
+	private static void simularPandemia(Poblacion p) {
+		while(!p.finPandemia()) {
+			p.generarSiguienteIteracion();
+		}
+		p.toString();
+	}
+	
+	/*private static Persona[][] contagios (Poblacion poblacion) {
 		Persona[][] poblacionOriginal = poblacion.getMatriz();
 		Persona[][] trasContagiar = null;
 		ArrayList<int[]> enfermos = new ArrayList<int[]>();
@@ -50,9 +59,9 @@ public class Principal {
 		}
 		
 		return poblacionOriginal;
-	}
+	}*/
 	
-	private static ArrayList<int[]> buscarEnfermos(Persona[][] matriz) {
+	/*private static ArrayList<int[]> buscarEnfermos(Persona[][] matriz) {
 		ArrayList<int[]> enfermos = new ArrayList<int[]>();
 		
 		for (int i = 0; i < matriz.length; i++ ) {
@@ -67,11 +76,11 @@ public class Principal {
 		}
 			
 		return enfermos;
-	}
+	}*/
 	
 	// Métodos auxiliares
 
-	private static void representarPoblacion(Poblacion poblacion) { //Borrar
+	/*private static void representarPoblacion(Poblacion poblacion) { //Borrar
 		System.out.println(" --- POBLACIÓN ---");
 		Persona[][] pueblo = poblacion.getMatriz();
 		for (int i = 0; i < pueblo.length; i++) {
@@ -80,7 +89,7 @@ public class Principal {
 			}
 			System.out.println();
 		}
-	}
+	}*/
 	
 	public static int leerEnteroPositivo(String mensaje) {
 		Scanner TECLADO = new Scanner(System.in);
