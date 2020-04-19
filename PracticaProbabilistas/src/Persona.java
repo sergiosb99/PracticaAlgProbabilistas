@@ -1,15 +1,23 @@
 
 public enum Persona {
-	ENFERMO('E'),INMUNE('I'),MUERTO('M'),NOAFECTADO('N');
+	ENFERMO('E',-1),INMUNE('I',0),MUERTO('M',0),NOAFECTADO('N',0),AUXILIAR('0',-1);//AUXILIAR SOLO SIRVE PARA LA MATRIZ
 	private char valor;
+	private int turno;
 	
-	Persona(char valor){
+	Persona(char valor,int turno){
 		this.valor=valor;
+		this.turno=turno;
 	}
-	char getValor() {
+	public char getValor() {
 		return this.valor;
 	}
-	void setValor(char valor) {  //esto hay que borrarlo que es una mierda
+	public void setValor(char valor) {  //esto hay que borrarlo que es una mierda
 		this.valor=valor;
+	}
+	public int getTurno() {
+		return this.turno;
+	}
+	public void setTurno(int turno) {
+		this.turno=turno;
 	}
 }

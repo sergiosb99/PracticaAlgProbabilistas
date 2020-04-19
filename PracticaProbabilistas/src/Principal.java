@@ -39,7 +39,7 @@ public class Principal {
 		while(!p.finPandemia()) {
 			p.generarSiguienteIteracion();
 		}
-		p.toString();
+		System.out.println(p.toString());
 	}
 	
 	/*private static Persona[][] contagios (Poblacion poblacion) {
