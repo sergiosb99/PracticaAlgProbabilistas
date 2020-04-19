@@ -5,7 +5,7 @@ public class Principal {
 	public static void main(String[] args){
 		int alto = leerEnteroPositivo("Introduzca el largo de la población: "); 
 		int ancho = leerEnteroPositivo("Introduzca el ancho de la población: ");
-		Poblacion poblacion = new Poblacion(alto,ancho); // Se inicia con todos sanos (S).
+		
 		System.out.println("Tienes dos opciones:\n1)Generar el primer enfermo aleatoriamente.\n2)Generar el primer enfermo introduciendo la posición exacta.");
 		int opcion = leerEnteroPositivoConLimite(1,3,"Introduzca una opción:");
 		int altoEnfermo=-1,anchoEnfermo=-1;
@@ -20,22 +20,43 @@ public class Principal {
 			anchoEnfermo = leerEnteroPositivoConLimite(0,ancho,"Ancho (0 - " + (ancho-1) +"):");
 			break;
 		}
+		int porcentajes=leerEnteroPositivoConLimite(1,3,"\n¿Quieres cambiar los porcentajes?\n1)Sí.\n2)No.");
+		Poblacion poblacion=null;
+		switch(porcentajes) {
+			case 1:
+				System.out.println("Introduce los valores de contagio a los vecinoes (1) Vertical y Horizontal (2) Diagonales.");
+				int[]porcentajes_contagio=pedirPorcentajes(2);
+				System.out.println("Introduce los valores de cambio de estado (1) Enfermo (2) Muerto (3)Seguir igual");
+				int[]porcentajes_cambio=pedirPorcentajes(3);
+				/*for(int i=0;i<porcentajes_contagio.length;i++) {
+					System.out.print(porcentajes_contagio[i]+" ");
+				}
+				System.out.println();
+				for(int i=0;i<porcentajes_cambio.length;i++) {
+					System.out.print(porcentajes_cambio[i]+" ");
+				}
+				System.out.println();*/
+				poblacion = new Poblacion(alto,ancho,porcentajes_contagio[0],porcentajes_contagio[1],porcentajes_cambio[0],porcentajes_cambio[1],porcentajes_cambio[2]); // Se inicia con todos sanos (S).
+				break;
+			case 2:
+				poblacion = new Poblacion(alto,ancho,80,30,30,20,50);
+				break;
+		}
 		
 		/*Persona [][] pueblo = primerEnfermo(poblacion,altoEnfermo,anchoEnfermo);
 		poblacion.setMatriz(pueblo); // La población ahora tiene un enfermo (E).*/
 		
-		poblacion.primerEnfermo(altoEnfermo, anchoEnfermo);
 		
-		System.out.println(poblacion.toString());
 		
-		simularPandemia(poblacion);
+		simularPandemia(poblacion,altoEnfermo,anchoEnfermo);
 		
 		/*contagios(poblacion);
 		representarPoblacion(poblacion);*/
 
 	}
 	
-	private static void simularPandemia(Poblacion p) {
+	private static void simularPandemia(Poblacion p,int altoEnfermo,int anchoEnfermo) {
+		p.primerEnfermo(altoEnfermo, anchoEnfermo);
 		while(!p.finPandemia()) {
 			p.generarSiguienteIteracion();
 		}
@@ -90,6 +111,25 @@ public class Principal {
 			System.out.println();
 		}
 	}*/
+	
+	public static int[] pedirPorcentajes(int num) {
+		int[]porcentajes=new int[num];
+		int porcentaje_total=100;
+		for(int i=0;i<porcentajes.length-1;i++) {
+
+			int porcentaje_actual=leerEnteroPositivo("Introduce un número entero positivo: ");
+			porcentaje_total=porcentaje_total-porcentaje_actual;
+			if(porcentaje_total<=0) {
+				i--;
+				System.out.println("Valor inválido, supera el número 100.");
+			}else {
+				porcentajes[i]=porcentaje_actual;
+			}
+		}
+		porcentajes[num-1]=porcentaje_total;
+		
+		return porcentajes;
+	}
 	
 	public static int leerEnteroPositivo(String mensaje) {
 		Scanner TECLADO = new Scanner(System.in);
