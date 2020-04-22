@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Principal {
@@ -24,19 +23,20 @@ public class Principal {
 		Poblacion poblacion=null;
 		switch(porcentajes) {
 			case 1:
-				System.out.println("Introduce los valores de contagio a los vecinoes (1) Vertical y Horizontal (2) Diagonales.");
-				int[]porcentajes_contagio=pedirPorcentajes(2);
-				System.out.println("Introduce los valores de cambio de estado (1) Enfermo (2) Muerto (3)Seguir igual");
+				System.out.println("Introduce los valores de contagio a los vecinos para:");
+				int vertical_horizontal = leerEnteroPositivoConLimite(0,100,"(1) Vertical y Horizontal");
+				int diagonal = leerEnteroPositivoConLimite(0,100,"(2) Diagonales");
+				System.out.println("Introduce los valores de cambio de estado para:\n(1) Inmune\n(2) Muerto\n(3) Seguir enfermo");
 				int[]porcentajes_cambio=pedirPorcentajes(3);
-				/*for(int i=0;i<porcentajes_contagio.length;i++) {
-					System.out.print(porcentajes_contagio[i]+" ");
-				}
-				System.out.println();
+				
 				for(int i=0;i<porcentajes_cambio.length;i++) {
 					System.out.print(porcentajes_cambio[i]+" ");
 				}
-				System.out.println();*/
-				poblacion = new Poblacion(alto,ancho,porcentajes_contagio[0],porcentajes_contagio[1],porcentajes_cambio[0],porcentajes_cambio[1],porcentajes_cambio[2]); // Se inicia con todos sanos (S).
+				System.out.println();
+				System.out.println("h/v: "+vertical_horizontal);
+				System.out.println("d: "+diagonal);
+
+				poblacion = new Poblacion(alto,ancho,vertical_horizontal,diagonal,porcentajes_cambio[0],porcentajes_cambio[1],porcentajes_cambio[2]); // Se inicia con todos sanos (S).
 				break;
 			case 2:
 				poblacion = new Poblacion(alto,ancho,80,30,30,20,50);
@@ -56,70 +56,35 @@ public class Principal {
 	}
 	
 	private static void simularPandemia(Poblacion p,int altoEnfermo,int anchoEnfermo) {
-		p.primerEnfermo(altoEnfermo, anchoEnfermo);
+		p.primerEnfermo(altoEnfermo + 1, anchoEnfermo + 1); // EL +1 POR LAS FILAS DE SEGURIDAD QUE HAY.
+		Persona[][]situacion_actual=copiarSituacion(p.getMatriz().get(0));
 		while(!p.finPandemia()) {
-			p.generarSiguienteIteracion();
+			situacion_actual = p.generarSiguienteIteracion(situacion_actual);
 		}
 		System.out.println(p.toString());
 	}
 	
-	/*private static Persona[][] contagios (Poblacion poblacion) {
-		Persona[][] poblacionOriginal = poblacion.getMatriz();
-		Persona[][] trasContagiar = null;
-		ArrayList<int[]> enfermos = new ArrayList<int[]>();
-		enfermos = buscarEnfermos(trasContagiar);
+	public static Persona[][] copiarSituacion(Persona[][]situacion){ // ME LO HE TENIDO QUE TRAER A ESTA CLASE
+		Persona[][]situacion_actual=new Persona[situacion.length][situacion[0].length];
 		
-		for (int enf = 0; enf < enfermos.size(); enf++) {
-			int alto = enfermos.get(enf)[0];
-			int ancho = enfermos.get(enf)[1];
-			for (int i = 0; i < poblacionOriginal.length; i++) {
-				for(int j = 0; j < poblacionOriginal[0].length; i++) {
-					if (i == alto || j == ancho) poblacionOriginal[i][j].setEstado(2);
-				}
+		for(int i=0;i<situacion_actual.length;i++) {
+			for(int j=0;j<situacion_actual[0].length;j++) {
+				situacion_actual[i][j]=situacion[i][j];
 			}
 		}
-		
-		return poblacionOriginal;
-	}*/
-	
-	/*private static ArrayList<int[]> buscarEnfermos(Persona[][] matriz) {
-		ArrayList<int[]> enfermos = new ArrayList<int[]>();
-		
-		for (int i = 0; i < matriz.length; i++ ) {
-			for (int j = 0; j < matriz[0].length; j++) {
-				if (matriz[i][j].estado == 2) {
-					int[] posicionEnfermo = new int[2]; // metemos el alto y ancho  
-					posicionEnfermo[1] = matriz.length;
-					posicionEnfermo[2] = matriz[0].length;
-					enfermos.add(posicionEnfermo);
-				}
-			}
-		}
-			
-		return enfermos;
-	}*/
+		return situacion_actual;
+	}
 	
 	// Métodos auxiliares
-
-	/*private static void representarPoblacion(Poblacion poblacion) { //Borrar
-		System.out.println(" --- POBLACIÓN ---");
-		Persona[][] pueblo = poblacion.getMatriz();
-		for (int i = 0; i < pueblo.length; i++) {
-			for (int j = 0; j < pueblo[0].length; j++) {
-				System.out.print(pueblo[i][j] + " ");
-			}
-			System.out.println();
-		}
-	}*/
 	
 	public static int[] pedirPorcentajes(int num) {
 		int[]porcentajes=new int[num];
 		int porcentaje_total=100;
 		for(int i=0;i<porcentajes.length-1;i++) {
 
-			int porcentaje_actual=leerEnteroPositivo("Introduce un número entero positivo: ");
+			int porcentaje_actual=leerEnteroPositivo("Introduce un número entero positivo para ("+(i+1)+"): ");
 			porcentaje_total=porcentaje_total-porcentaje_actual;
-			if(porcentaje_total<=0) {
+			if(porcentaje_total < 0) {
 				i--;
 				System.out.println("Valor inválido, supera el número 100.");
 			}else {
@@ -140,7 +105,7 @@ public class Principal {
 			try {
 				numero = TECLADO.nextInt();
 				
-				if(numero<=0) {
+				if(numero<0) {
 					valido=false;
 					System.out.println("Has introducido un valor no válido, introduzca uno válido.");
 				}else {
@@ -166,14 +131,14 @@ public class Principal {
 			System.out.println(mensaje);
 			try {
 				opcion = TECLADO.nextInt();
-				if (opcion < valorMin || opcion >= valorMax) {
+				if (opcion < valorMin || opcion > valorMax) {
 					throw new Exception("El numero introducido debe estar entre"+ valorMin+" y "+valorMax+", pruebe otra vez:");
 				}
 			}catch(Exception e) {
 				System.out.print("Introduzca un valor valido: ");
 				TECLADO.nextLine();
 			}
-		} while (opcion < valorMin || opcion >= valorMax);
+		} while (opcion < valorMin || opcion > valorMax);
 
 		return opcion;
 	}
