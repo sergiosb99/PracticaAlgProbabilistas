@@ -10,8 +10,9 @@ public class Principal {
 		int altoEnfermo=-1,anchoEnfermo=-1;
 		switch(opcion) {
 		case 1:
-			altoEnfermo = (int) Math.floor(Math.random()*alto+1);
-			anchoEnfermo = (int) Math.floor(Math.random()*ancho+1);
+			altoEnfermo = (int) Math.floor(Math.random()*alto);
+			anchoEnfermo = (int) Math.floor(Math.random()*ancho);
+			System.out.println("Alto: "+altoEnfermo+", Ancho: "+anchoEnfermo);
 			break;
 		case 2:
 			System.out.println("¿En que posición quieres poner el primer enfermo de la población?");
