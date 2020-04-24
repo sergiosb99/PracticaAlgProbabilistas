@@ -16,8 +16,8 @@ public class Principal {
 			break;
 		case 2:
 			System.out.println("¿En que posición quieres poner el primer enfermo de la población?");
-			altoEnfermo = leerEnteroPositivoConLimite(0,alto,"Alto (0 - " + (alto-1) +"):");
-			anchoEnfermo = leerEnteroPositivoConLimite(0,ancho,"Ancho (0 - " + (ancho-1) +"):");
+			altoEnfermo = leerEnteroPositivoConLimite(0,alto-1,"Alto (0 - " + (alto-1) +"):");
+			anchoEnfermo = leerEnteroPositivoConLimite(0,ancho-1,"Ancho (0 - " + (ancho-1) +"):");
 			break;
 		}
 		int porcentajes=leerEnteroPositivoConLimite(1,3,"\n¿Quieres cambiar los porcentajes?\n1)Sí.\n2)No.");
