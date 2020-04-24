@@ -41,38 +41,17 @@ public class Principal {
 			case 2:
 				poblacion = new Poblacion(alto,ancho,80,30,30,20,50);
 				break;
-		}
-		
-		/*Persona [][] pueblo = primerEnfermo(poblacion,altoEnfermo,anchoEnfermo);
-		poblacion.setMatriz(pueblo); // La población ahora tiene un enfermo (E).*/
-		
-		
-		
+		}		
 		simularPandemia(poblacion,altoEnfermo,anchoEnfermo);
-		
-		/*contagios(poblacion);
-		representarPoblacion(poblacion);*/
-
 	}
 	
 	private static void simularPandemia(Poblacion p,int altoEnfermo,int anchoEnfermo) {
-		p.primerEnfermo(altoEnfermo + 1, anchoEnfermo + 1); // EL +1 POR LAS FILAS DE SEGURIDAD QUE HAY.
-		Persona[][]situacion_actual=copiarSituacion(p.getMatriz().get(0));
+		p.primerEnfermo(altoEnfermo + 1, anchoEnfermo + 1);
+		Persona[][]situacion_actual=p.copiarSituacion(p.getMatriz().get(0));
 		while(!p.finPandemia()) {
 			situacion_actual = p.generarSiguienteIteracion(situacion_actual);
 		}
 		System.out.println(p.toString());
-	}
-	
-	public static Persona[][] copiarSituacion(Persona[][]situacion){ // ME LO HE TENIDO QUE TRAER A ESTA CLASE
-		Persona[][]situacion_actual=new Persona[situacion.length][situacion[0].length];
-		
-		for(int i=0;i<situacion_actual.length;i++) {
-			for(int j=0;j<situacion_actual[0].length;j++) {
-				situacion_actual[i][j]=situacion[i][j];
-			}
-		}
-		return situacion_actual;
 	}
 	
 	// Métodos auxiliares
